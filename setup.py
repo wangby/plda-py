@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
@@ -34,7 +35,7 @@ ext_modules = [
 setup(
     name             = 'plda-py',
     version          = '0.1.0',
-    description      = 'Python wrapper for plda from SEOmoz',
+    description      = 'Python wrapper from SEOmoz for plda (http://code.google.com/p/plda)',
     author           = 'Jerry(Jian) Feng', 
     author_email     = 'jerry@seomoz.org',
     url              = 'http://github.com/seomoz/plda-py',
