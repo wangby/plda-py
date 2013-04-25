@@ -95,7 +95,6 @@ std::string LDA_infer::run(string line) {
               (total_iterations - burnin_iterations)
             << ((topic < prob_dist.size() - 1) ? " " : "\n");
       }
-
     }
 
     return out.str();
