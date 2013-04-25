@@ -14,6 +14,7 @@ To build the wrapper, run `python setup.py build`.
 To install the wrapper, run `(sudo) python setup.py install`.
 
 To run the inference with a model in Python, use codes like the following,
+
     import plda
 
     model_file = './testdata/lda_model.txt' # this file contains the model you trained using lda command.
