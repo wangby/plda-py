@@ -41,8 +41,6 @@ LDA_infer::LDA_infer(string model_file, double alpha, double beta, int total_ite
     else
         srand(seed);
 
-    // std::cout << "The parameters received for model_file, alpha, beta" << model_file << alpha << seed << std::endl;
-
     ifstream model_fin(model_file.c_str());
     model =  new LDAModel(model_fin, &word_index_map);
     sampler = new LDASampler(alpha, beta, model, NULL);
@@ -58,7 +56,7 @@ LDA_infer::~LDA_infer() {
 std::string LDA_infer::run(string line) {
     std::stringstream out;
 
-    // Keep the following untouched. 
+    // Keep the following untouched (original codes copied from infer.cc). 
     if (line.size() > 0 &&      // Skip empty lines.
         line[0] != '\r' &&      // Skip empty lines.
         line[0] != '\n' &&      // Skip empty lines.
@@ -98,11 +96,8 @@ std::string LDA_infer::run(string line) {
             << ((topic < prob_dist.size() - 1) ? " " : "\n");
       }
 
-      return out.str();
     }
-    else 
-    {
-      return "";
-    }
+
+    return out.str();
 }
 
