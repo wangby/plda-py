@@ -19,5 +19,27 @@ cdef class PyLDA:
         del self.thisptr
 
     def run(self, string line):
-        return <string> self.thisptr.run(line)
+        calculated = <string> self.thisptr.run(line)
+        splited = calculated.split()
+        mapped = map(lambda x: float(x), splited)
+        return mapped
+
+    def run_on_list(self, word_list):
+        from collections import defaultdict
+        import StringIO
+
+        store = defaultdict(int)
+        for word in word_list:
+            store[word] += 1
+
+        output = StringIO.StringIO()
+        for k, v in store.items():
+            output.write('%s %d ' % (k, v))
+
+        output.write('\n')
+        line = output.getvalue()
+        output.close()
+
+        return self.run(line)
+
 
