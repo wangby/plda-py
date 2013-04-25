@@ -1,0 +1,34 @@
+# Ignore emacs tilde files
+*~
+
+# Ignore vim swp files
+*.swp
+
+# Ignore build artifacts, but keep build file and config
+release/*
+release/**/*
+
+debug/*
+debug/**/*
+!debug/config.mk
+!debug/makefile
+
+# Ignore plda c++ codes
+plda/*
+
+# Ignore the automatically generated cpp file from .pyx file.
+src/plda.cpp
+
+# Ignore build objects in other directories
+*.o
+*.a
+
+# VIM tags file
+tags
+.tags
+
+# Pycharm
+.idea
+
+*.pyc
+
