@@ -1,6 +1,6 @@
-#include "common.h"
-#include "model.h"
-#include "sampler.h"
+#include "../plda/common.h"
+#include "../plda/model.h"
+#include "../plda/sampler.h"
 
 #ifndef LDA_INFER
 #define LDA_INFER

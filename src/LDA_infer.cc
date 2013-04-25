@@ -10,11 +10,11 @@
 #include <sstream>
 #include <string>
 
-#include "common.h"
-#include "document.h"
-#include "model.h"
-#include "sampler.h"
-#include "cmd_flags.h"
+#include "../plda/common.h"
+#include "../plda/document.h"
+#include "../plda/model.h"
+#include "../plda/sampler.h"
+#include "../plda/cmd_flags.h"
 #include "LDA_infer.h"
 
 using learning_lda::LDACorpus;

@@ -29,7 +29,7 @@ from Cython.Distutils import build_ext
 
 ext_modules = [
     Extension("plda", 
-    sources = ["plda/plda.pyx", "plda/accumulative_model.cc", "plda/LDA_infer.cc", "plda/common.cc", "plda/document.cc", "plda/model.cc", "plda/cmd_flags.cc", "plda/sampler.cc"], 
+    sources = ["src/plda.pyx", "plda/accumulative_model.cc", "src/LDA_infer.cc", "plda/common.cc", "plda/document.cc", "plda/model.cc", "plda/cmd_flags.cc", "plda/sampler.cc"], 
     language="c++")]
 
 setup(
