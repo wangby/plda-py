@@ -39,7 +39,7 @@ Folder structure:
 
 This module should be able to support the future versions of plda. The only things needed to do for updating:
 
-    1. Download the new C++ codes and extract them into the 'plda' folder.
-    2. Make a copy of the file `infer.cc` and put it into src folder with name `LDA_infer.cc`. Modify it to make it a class definition. Then Create a .h file for the class definition.
+1. Download the new C++ codes and extract them into the 'plda' folder.
+2. Make a copy of the file `infer.cc` and put it into src folder with name `LDA_infer.cc`. Modify it to make it a class definition. Then Create a .h file for the class definition.
 
 JFeng, SEOmoz, 04/2013
