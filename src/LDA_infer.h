@@ -10,7 +10,7 @@ namespace plda_namespace {
         public:
             LDA_infer(std::string, double, double, int, int, int);
             ~LDA_infer();
-            std::string run(std::string);
+            std::vector<double> run(std::string);
 
         private:
             LDA_infer(const LDA_infer& that);

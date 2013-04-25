@@ -53,50 +53,43 @@ LDA_infer::~LDA_infer() {
     delete model;
 }
 
-std::string LDA_infer::run(string line) {
+std::vector<double> LDA_infer::run(string line) {
     std::stringstream out;
 
     // Keep the following untouched (original codes copied from infer.cc). 
-    if (line.size() > 0 &&      // Skip empty lines.
-        line[0] != '\r' &&      // Skip empty lines.
-        line[0] != '\n' &&      // Skip empty lines.
-        line[0] != '#') {       // Skip comment lines.
-      istringstream ss(line);
-      DocumentWordTopicsPB document_topics;
-      std::string word;
-      int count;
-      while (ss >> word >> count) {  // Load and init a document.
-        std::vector<int32> topics;
-        for (int i = 0; i < count; ++i) {
-          topics.push_back(RandInt(model->num_topics()));
-        }
-        std::map<string, int>::const_iterator iter = word_index_map.find(word);
-        if (iter != word_index_map.end()) {
-          document_topics.add_wordtopics(word, iter->second, topics);
-        }
+    istringstream ss(line);
+    DocumentWordTopicsPB document_topics;
+    std::string word;
+    int count;
+    while (ss >> word >> count) {  // Load and init a document.
+      std::vector<int32> topics;
+      for (int i = 0; i < count; ++i) {
+        topics.push_back(RandInt(model->num_topics()));
       }
-      LDADocument document(document_topics, model -> num_topics());
-      TopicProbDistribution prob_dist(model -> num_topics(), 0);
-      for (int iter = 0; iter < total_iterations; ++iter) {
-        sampler->SampleNewTopicsForDocument(&document, false);
-        // This line changed to use the class variables.
-        if (iter >= burnin_iterations) {
-          const vector<int64>& document_distribution =
-              document.topic_distribution();
-          for (int i = 0; i < document_distribution.size(); ++i) {
-            prob_dist[i] += document_distribution[i];
-          }
-        }
+      std::map<string, int>::const_iterator iter = word_index_map.find(word);
+      if (iter != word_index_map.end()) {
+        document_topics.add_wordtopics(word, iter->second, topics);
       }
-
-      for (int topic = 0; topic < prob_dist.size(); ++topic) {
-        out << prob_dist[topic] /
-              // This line changed to use the class variables.
-              (total_iterations - burnin_iterations)
-            << ((topic < prob_dist.size() - 1) ? " " : "\n");
+    }
+    LDADocument document(document_topics, model -> num_topics());
+    TopicProbDistribution prob_dist(model -> num_topics(), 0);
+    for (int iter = 0; iter < total_iterations; ++iter) {
+      sampler->SampleNewTopicsForDocument(&document, false);
+      // This line changed to use the class variables.
+      if (iter >= burnin_iterations) {
+        const vector<int64>& document_distribution =
+            document.topic_distribution();
+        for (int i = 0; i < document_distribution.size(); ++i) {
+          prob_dist[i] += document_distribution[i];
+        }
       }
     }
 
-    return out.str();
+    // divide by number of iterations
+    double running_iterations = total_iterations - burnin_iterations;
+    for (int topic = 0; topic < prob_dist.size(); ++topic) {
+        prob_dist[topic] /= running_iterations;
+    }
+    return prob_dist;
 }
 

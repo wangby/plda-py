@@ -2,11 +2,12 @@
 ##
 
 from libcpp.string cimport string
+from libcpp.vector cimport vector
 
 cdef extern from "LDA_infer.h" namespace "plda_namespace":
     cdef cppclass LDA_infer:
         LDA_infer(string, double, double, int, int, int) except +
-        string run(string)
+        vector[double] run(string)
 
 cdef class PyLDA:
     cdef LDA_infer *thisptr
@@ -19,27 +20,16 @@ cdef class PyLDA:
         del self.thisptr
 
     def run(self, string line):
-        calculated = <string> self.thisptr.run(line)
-        splited = calculated.split()
-        mapped = map(lambda x: float(x), splited)
-        return mapped
+        if len(line) == 0:
+            return None
+        return self.thisptr.run(line)
 
     def run_on_list(self, word_list):
         from collections import defaultdict
-        import cStringIO as StringIO
 
         store = defaultdict(int)
         for word in word_list:
             store[word] += 1
 
-        output = StringIO.StringIO()
-        for k, v in store.items():
-            output.write('%s %d ' % (k, v))
-
-        output.write('\n')
-        line = output.getvalue()
-        output.close()
-
-        return self.run(line)
-
+        return self.run(' '.join(("%s %s" % (k, v) for k, v in store.iteritems())))
 
