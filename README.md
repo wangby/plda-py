@@ -30,6 +30,7 @@ To run the inference with a model in Python, use codes like the following,
 The package is able to compile, install and run with Python 2.7.3, Cython 0.18 in Ubuntu 12.04 LTS 64b. The plda version is 3.1.
 
 Folder structure:
+
     plda-py
         src/ - contains added C++ files (`LDA_infer.c`, `LDA_infer.h`) and `plda.pyx`
         test/ - unit tests
