@@ -26,7 +26,7 @@ cdef class PyLDA:
 
     def run_on_list(self, word_list):
         from collections import defaultdict
-        import StringIO
+        import cStringIO as StringIO
 
         store = defaultdict(int)
         for word in word_list:
