@@ -8,7 +8,7 @@ class TestPlda(unittest.TestCase):
     def approx_equal(self, num1, num2, error=0.05):
         return abs(num1 - num2) <= 0.5 * error * (num1 + num2)
 
-    def test_accuracy(self):
+    def test_accuracy_string(self):
         # This is 10 records we got from the test-data set in plda package.
         test_data = [
             "concept 1 consider 1 global 1 entropy 1 go 1 contributions 1 excludes 1 depend 1 graph 1 environment 1 program 1 under 1 undirected 1 random 1 very 1 putting 1 difference 1 entire 1 randomness 1 july 1 large 1 vector 1 synapses 1 zl 1 upper 1 smaller 1 says 1 occurrence 1 val- 1 likely 1 n 1 ues 1 what 1 selected 1 nand 1 find 1 access 1 version 1 goes 1 obvious 1 learn 1 here 1 desired 1 objects 1 let 1 represented 1 strong 1 appears 1 equiv- 1 institute 1 k 1 vectors 1 reports 1 amount 1 extremes 1 proof 1 regardless 1 projection 1 merely 1 boolean 1 total 1 asymptotic 1 would 1 prove 1 next 1 automata 1 taken 1 tell 1 knows 1 becomes 1 visual 1 appendix 1 normalized 1 particular 1 hold 1 must 1 work 1 itself 1 values 1 v 1 abu-mostafa 1 process 1 sample 1 something 1 arise 1 distinguishable 1 occur 1 huge 1 end 1 rather 1 means 1 feature 1 write 1 infor- 1 spon- 1 ensemble 1 information 1 may 1 after 1 consequence 1 designed 1 en- 1 complexity 1 so 1 sb 1 restriction 1 holds 1 office 1 produces 1 yaser 1 paper 1 through 1 ity 1 still 1 denker 1 symmetry 1 how 1 coordinates 1 distinguishing 1 systems 1 main 1 versus 1 eventually 1 imple- 1 synapse 1 introduce 1 thus 1 now 1 nor 1 term 1 subset 1 el 1 doing 1 ea 1 idea 1 frequency 1 measure 1 our 1 es 1 out 1 taneously 1 network 1 restricted 1 since 1 research 1 theory 1 state 1 mechanisms 1 diagonal 1 california 1 biological 1 estimate 1 training 1 interaction 1 g 1 connectivity 1 times 1 length 1 circuit 1 hence 1 xn 1 probability 1 relate 1 powerful 1 scene 1 restrict 1 directly 1 force 1 illustrate 1 their 1 approximately 1 needed 1 assumption 1 expand 1 bits 1 final 1 part 1 tive 1 specify 1 plausible 1 second 1 r 1 supposed 1 ber 1 sees 1 need 1 seen 1 any 1 implemented 1 zero 1 depending 1 ideas 1 mechanism 1 internal 1 switching 1 shall 1 most 1 connected 1 quantitative 1 measured 1 ceedings 1 vertices 1 axe 1 physics 1 fact 1 show 1 supported 1 relation 1 substituting 1 menting 1 networks 1 knowledge 1 parameters 1 written 1 going 1 local 1 handle 1 get 1 overall 1 cannot 1 neural-network 1 during 1 runs 1 h 1 twice 1 x 1 fixed 1 discussing 1 throwing 1 maximum 1 relative 1 depends 1 result 1 analog 1 learns 1 ways 1 pattern 1 away 1 label 1 enough 1 drawn 1 neither 1 available 1 terms 1 ability 1 jr 1 jl 1 off-diagonal 1 distribution 1 restrictions 1 c 1 last 1 many 1 according 1 variance 1 contribution 1 expression 1 point 1 ca 1 corresponds 1 environments 1 learning 1 respect 1 conference 1 capable 1 two-input 1 describes 1 basic 1 expected 1 define 1 generating 1 corresponding 1 essentially 1 complex- 1 those 1 case 1 value 1 air 1 technical 1 while 1 suppose 1 neuron 1 vl 1 neurons 1 ready 1 technology 1 binary 1 grant 1 perform 1 suggest 1 make 1 evaluate 1 finite 1 independent 1 uniform 1 edges 1 uses 1 tune 1 vironment 1 lower 1 acknowledgement 1 patterns 1 position 1 model 1 just 1 less 1 being 1 informal 1 conclude 1 easy 1 theorem 1 input 1 rules 1 big 1 possible 1 bit 1 formal 1 follows 1 collective 1 benefit 1 imposes 1 arbitrary 1 become 1 disorder 1 because 1 examples 1 choosing 1 loaded 1 gradually 1 opposite 1 per 1 everything 1 does 1 exposition 1 provides 1 scientific 1 equivalent 1 bt 1 step 1 although 1 properties 1 about 1 carried 1 getting 1 pro- 1 own 1 bound 1 accommodate 1 accumulated 1 range 1 n-k 1 k-bit 1 statistics 1 log 1 assumed 1 start 1 much 1 low 1 complete 1 sophisticated 1 circuits 1 j 1 variations 1 up 1 problem 1 z 1 definitions 1 defined 1 ao 1 denote 1 defines 1 functions 1 no 1 interested 1 compares 1 you 1 picture 1 elements 1 problems 1 generated 1 variable 1 independently 1 e 1 assume 1 american 1 together 1 starting 1 strings 1\n",
@@ -49,12 +49,50 @@ class TestPlda(unittest.TestCase):
 
         for i in xrange(len(test_data)):
             calculated = model.run(test_data[i])
-            split = calculated.split()
-            calculated = map(lambda x: float(x), split)
+            # split = calculated.split()
+            # calculated = map(lambda x: float(x), split)
 
             # Due to the randomness of the plda algorithm, the values may differ by about 5%.
             for j in xrange(len(calculated)):
                 self.assertTrue(self.approx_equal(calculated[j], expected[i][j]))
+
+    def test_accuracy_list(self):
+        # This is 10 records we got from the test-data set in plda package.
+        test_data = [
+            "concept", "consider", "global", "entropy", "go", "contributions", "excludes", "depend", "graph",
+            "environment", "program", "under", "undirected", "random", "very", "putting", "difference", "entire",
+            "randomness", "july", "large", "vector", "synapses", "zl", "upper", "smaller", "says", "occurrence", "val-",
+            "likely", "n", "ues", "what", "selected", "nand", "find", "access", "version", "goes", "obvious",
+            "learn", "here", "desired", "objects", "let", "represented", "strong", "appears", "equiv-", "institute",
+            "k", "vectors", "reports", "amount", "extremes", "proof", "regardless", "projection", "merely",
+            "boolean", "total", "asymptotic", "would", "prove", "next", "automata", "taken", "tell", "knows",
+            "becomes", "visual", "appendix", "normalized", "particular", "hold", "must", "work", "itself",
+            "values", "v", "abu-mostafa", "process", "sample", "something", "arise", "distinguishable", "occur", "huge",
+            "end", "rather", "means", "feature", "write", "infor-", "spon-", "ensemble", "information", "may", "after",
+            "consequence", "designed", "en-", "complexity", "so", "sb", "restriction", "holds", "office", "produces",
+            "yaser", "paper", "through", "ity", "still", "denker", "symmetry", "how", "coordinates", "distinguishing",
+            "systems", "main", "versus", "eventually", "imple-", "synapse", "introduce", "thus", "now", "nor", "term",
+            "subset", "el", "doing", "ea", "idea", "frequency",
+        ]
+
+        # This is the data we got by running command line infer tool in the plda package.
+        expected = [46.21, 89.79]
+
+        model_file = 'data/lda_model.txt'
+
+        alpha = 0.1
+        beta = 0.01
+        max_iter = 200
+        burnin_iter = 100
+        seed = -1   # use the original seed setting (time) in plda package.
+
+        model = plda.PyLDA(model_file, alpha, beta, max_iter, burnin_iter, seed)
+
+        calculated = model.run_on_list(test_data)
+
+        # Due to the randomness of the plda algorithm, the values may differ by about 5%.
+        for j in xrange(len(calculated)):
+            self.assertTrue(self.approx_equal(calculated[j], expected[j]))
 
     def test_memory_leak(self):
         """
@@ -80,8 +118,8 @@ class TestPlda(unittest.TestCase):
 
         for i in xrange(10000):  # 10000 runs should take about 10 minutes to complete.
             calculated = model.run(test_data)
-            split = calculated.split()
-            calculated = map(lambda x: float(x), split)
+            # split = calculated.split()
+            # calculated = map(lambda x: float(x), split)
 
             for j in xrange(len(calculated)):
                 self.assertTrue(self.approx_equal(calculated[j], expected[j], error=0.1))
