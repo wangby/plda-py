@@ -63,14 +63,14 @@ std::string LDA_infer::run(string line) {
         line[0] != '#') {       // Skip comment lines.
       istringstream ss(line);
       DocumentWordTopicsPB document_topics;
-      string word;
+      std::string word;
       int count;
       while (ss >> word >> count) {  // Load and init a document.
-        vector<int32> topics;
+        std::vector<int32> topics;
         for (int i = 0; i < count; ++i) {
-          topics.push_back(RandInt(model -> num_topics()));
+          topics.push_back(RandInt(model->num_topics()));
         }
-        map<string, int>::const_iterator iter = word_index_map.find(word);
+        std::map<string, int>::const_iterator iter = word_index_map.find(word);
         if (iter != word_index_map.end()) {
           document_topics.add_wordtopics(word, iter->second, topics);
         }
