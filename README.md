@@ -14,7 +14,6 @@ To build the wrapper, run `python setup.py build`.
 To install the wrapper, run `(sudo) python setup.py install`.
 
 To run the inference with a model in Python, use codes like the following,
-`
     import plda
 
     model_file = './testdata/lda_model.txt' # this file contains the model you trained using lda command.
@@ -27,11 +26,15 @@ To run the inference with a model in Python, use codes like the following,
 
     model = plda.PyLDA(model_file, alpha, beta, max_iter, burnin_iter, seed) # create a model object from the model file.
     result = model.run(line) # the line is a record of data.
-`
 
 The package is able to compile, install and run with Python 2.7.3, Cython 0.18 in Ubuntu 12.04 LTS 64b. The plda version is 3.1.
 
-Folder structure: src - added C++ files (`LDA_infer.c`, `LDA_infer.h`) and `plda.pyx`. plda - downloaded C++ codes of plda package. test - python unit tests.
+Folder structure:
+    plda-py
+        src/ - contains added C++ files (`LDA_infer.c`, `LDA_infer.h`) and `plda.pyx`
+        test/ - unit tests
+        setup.py
+        plda/ - untar the PLDA 3.1 source code into this directory
 
 This module should be able to support the future versions of plda. The only things needed to do for updating are,
 1. Download the new C++ codes and extract them into the 'plda' folder.
