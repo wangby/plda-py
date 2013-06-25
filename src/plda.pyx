@@ -27,10 +27,9 @@ cdef class PyLDA:
     def run_on_list(self, word_list):
         from collections import defaultdict
 
-        utf8_list = [s.encode('utf8') for s in word_list]
+        utf8_list = (s.encode('utf8') for s in word_list)
         store = defaultdict(int)
 
-        # for word in word_list:
         for word in utf8_list:
             store[word] += 1
 
