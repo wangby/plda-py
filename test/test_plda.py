@@ -47,7 +47,6 @@ class TestPlda(unittest.TestCase):
 
                 i += 1
 
-
     def test_accuracy_list(self):
         # This is 10 records we got from the test-data set in plda package.
         test_data = [
@@ -65,6 +64,44 @@ class TestPlda(unittest.TestCase):
             "yaser", "paper", "through", "ity", "still", "denker", "symmetry", "how", "coordinates", "distinguishing",
             "systems", "main", "versus", "eventually", "imple-", "synapse", "introduce", "thus", "now", "nor", "term",
             "subset", "el", "doing", "ea", "idea", "frequency",
+            ]
+
+        # This is the data we got by running command line infer tool in the plda package.
+        expected = [46.21, 89.79]
+
+        model_file = 'data/lda_model.txt'
+
+        alpha = 0.1
+        beta = 0.01
+        max_iter = 200
+        burnin_iter = 100
+        seed = -1   # use the original seed setting (time) in plda package.
+
+        model = plda.PyLDA(model_file, alpha, beta, max_iter, burnin_iter, seed)
+
+        calculated = model.run_on_list(test_data)
+
+        # Due to the randomness of the plda algorithm, the values may differ by about 5%.
+        for j in xrange(len(calculated)):
+            self.assertTrue(self.approx_equal(calculated[j], expected[j]))
+
+    def test_accuracy_list_unicode(self):
+        # This is 10 records we got from the test-data set in plda package.
+        test_data = [
+            "concept", "consider", "global", "entropy", "go", "contributions", "excludes", "depend", "graph",
+            "environment", "program", "under", "undirected", "random", "very", "putting", "difference", "entire",
+            "randomness", "july", "large", "vector", "synapses", "zl", "upper", "smaller", "says", "occurrence", "val-",
+            "likely", "n", "ues", "what", "selected", "nand", "find", "access", "version", "goes", "obvious",
+            "learn", "here", "desired", "objects", "let", "represented", "strong", "appears", "equiv-", "institute",
+            "k", "vectors", "reports", "amount", "extremes", "proof", "regardless", "projection", "merely",
+            "boolean", "total", "asymptotic", "would", "prove", "next", "automata", "taken", "tell", "knows",
+            "becomes", "visual", "appendix", "normalized", "particular", "hold", "must", "work", "itself",
+            "values", "v", "abu-mostafa", "process", "sample", "something", "arise", "distinguishable", "occur", "huge",
+            "end", "rather", "means", "feature", "write", "infor-", "spon-", "ensemble", "information", "may", "after",
+            "consequence", "designed", "en-", "complexity", "so", "sb", "restriction", "holds", "office", "produces",
+            "yaser", "paper", "through", "ity", "still", "denker", "symmetry", "how", "coordinates", "distinguishing",
+            "systems", "main", "versus", "eventually", "imple-", "synapse", "introduce", "thus", "now", "nor", "term",
+            "subset", "el", "doing", "ea", "idea", "frequency", u'registered\xae'
         ]
 
         # This is the data we got by running command line infer tool in the plda package.
