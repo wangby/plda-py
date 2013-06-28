@@ -12,9 +12,16 @@ cdef extern from "LDA_infer.h" namespace "plda_namespace":
 cdef class PyLDA:
     cdef LDA_infer *thisptr
 
-    def __cinit__(self, string model_file, alpha, beta, total_iterations_, burnin_iterations_, seed):
-        self.thisptr = new LDA_infer(model_file, alpha, beta, total_iterations_, 
-                      burnin_iterations_, seed)
+    def __cinit__(self, string model_file,
+        alpha, beta, total_iterations_, burnin_iterations_, seed):
+        """Initialize the LDA model.
+        model_file = a previously trained model
+        alpha, beta = hyperparameters.  Use the same ones that were
+            specified when training the model
+        total_iterations_, burnin_iterations_ = for sampling the topics
+        seed = a specified seed, or -1 to use a random seed"""
+        self.thisptr = new LDA_infer(model_file,
+            alpha, beta, total_iterations_, burnin_iterations_, seed)
 
     def __dealloc__(self):
         del self.thisptr
@@ -32,4 +39,7 @@ cdef class PyLDA:
             store[word] += 1
 
         return self.run(' '.join(("%s %s" % (k, v) for k, v in store.iteritems())))
+
+    def get_related_words(self, topics, N):
+        """Given the topics and N, the number of 
 
