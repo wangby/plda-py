@@ -21,7 +21,7 @@ namespace plda_namespace {
             learning_lda::LDASampler *sampler;
             learning_lda::LDAModel *model;
             std::map<string, int> word_index_map;
-            std::vector<std::string> index_word_map;
+            std::vector<std::string> index_word_vec;
             int total_iterations;
             int burnin_iterations;
     };

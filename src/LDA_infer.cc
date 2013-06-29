@@ -1,6 +1,5 @@
 /*
     A wrapper class to pass to Python. 
-    This class has the root from infer.cc of the original plda package.
 
     JF SEOmoz 04/18/2013
     MP Moz 06/18/2013 - updated to return related words
@@ -48,9 +47,11 @@ LDA_infer::LDA_infer(string model_file, double alpha, double beta, int total_ite
     burnin_iterations = burnin_iterations_;
 
     // make the index -> word map
+    index_word_vec.resize(word_index_map.size());
     for (std::map<std::string, int>::const_iterator iter = word_index_map.begin();
         iter != word_index_map.end(); ++iter) {
-        index_word_map.push_back(iter->first);
+        index_word_vec[iter->second] = iter->first;
+        //index_word_vec.push_back(iter->first);
     }
 }
 
@@ -131,7 +132,7 @@ std::map<std::string, double> LDA_infer::get_related_words(
 
         // update the heap
         nwords_seen += 1;
-        topN_words.push_back(std::make_pair(index_word_map[iter.Word()], this_word_score));
+        topN_words.push_back(std::make_pair(index_word_vec[iter.Word()], this_word_score));
         std::push_heap(
             topN_words.begin(), topN_words.end(), compare_word_scores);
         if (nwords_seen > N) {

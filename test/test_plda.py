@@ -114,6 +114,62 @@ class TestPlda(unittest.TestCase):
             for j in xrange(len(calculated)):
                 self.assertTrue(self.approx_equal(calculated[j], expected[j], error=0.1))
 
+    def test_get_related_words(self):
+        model = plda.PyLDA('data/lda_model_related.txt',
+            1.0, 1.0, 10, 5, -1)
+
+        # read in the model file
+        words = []
+        params = []
+        with open('data/lda_model_related.txt', 'r') as f:
+            for line in f:
+                word, p1, p2 = line.strip().split()
+                words.append(word)
+                params.append([float(p1), float(p2)])
+
+        # plda first casts input file to int
+        params = np.array(params).astype(np.int)
+
+        def _get_max_words(topics, N):
+            weighted_params = topics[0] * params[:, 0] + \
+                topics[1] * params[:, 1]
+            sorted_indices = weighted_params.argsort()
+            ret = {}
+            for index in sorted_indices[-N:]:
+                ret[words[index]] = weighted_params[index]
+            return ret
+
+        def dict_almost_equal(d1, d2):
+            "Compares two dicts string -> double"
+            eq = d1.keys() == d2.keys()
+            if eq:
+                for k, v in d1.iteritems():
+                    eq = eq and abs(d1[k] - d2[k]) < 1e-8
+            return eq
+
+
+        first_topic = [1.0, 0.0]
+        computed_words = model.get_related_words(first_topic, 3)
+        self.assertTrue(dict_almost_equal(computed_words,
+                            _get_max_words(first_topic, 3)))
+
+        second_topic = [0.0, 2.6]
+        computed_words = model.get_related_words(second_topic, 4)
+        self.assertTrue(dict_almost_equal(computed_words,
+            _get_max_words(second_topic, 4)))
+
+        blended_topic = [0.3, 0.7]
+        computed_words = model.get_related_words(blended_topic, 3)
+        self.assertTrue(dict_almost_equal(computed_words,
+            _get_max_words(blended_topic, 3)))
+
+        # make sure nothing funny happens with 1 word
+        blended_topic = [0.3, 0.7]
+        computed_words = model.get_related_words(blended_topic, 1)
+        self.assertTrue(dict_almost_equal(computed_words,
+            _get_max_words(blended_topic, 1)))
+
+
 
 if __name__ == "__main__":
     unittest.main()

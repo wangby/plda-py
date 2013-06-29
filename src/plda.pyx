@@ -3,11 +3,13 @@
 
 from libcpp.string cimport string
 from libcpp.vector cimport vector
+from libcpp.map cimport map
 
 cdef extern from "LDA_infer.h" namespace "plda_namespace":
     cdef cppclass LDA_infer:
         LDA_infer(string, double, double, int, int, int) except +
         vector[double] run(string)
+        map[string, double] get_related_words(vector[double], int)
 
 cdef class PyLDA:
     cdef LDA_infer *thisptr
@@ -41,5 +43,10 @@ cdef class PyLDA:
         return self.run(' '.join(("%s %s" % (k, v) for k, v in store.iteritems())))
 
     def get_related_words(self, topics, N):
-        """Given the topics and N, the number of 
+        """Get most related words to these topics.
 
+        topics is the topics distribution (vector of double, as returned from
+            run)
+        N = get this many words
+        """
+        return self.thisptr.get_related_words(topics, N)
