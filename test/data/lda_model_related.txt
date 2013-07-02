@@ -1,0 +1,8 @@
+related	5.5 9.1
+words	0 2
+lda	18.12 3.7
+model	99.12 8.1
+query	9 123.1
+expansion	22.8 5.5
+information	12.8 22.3
+retrieval	32.1291 36.131
