@@ -12,6 +12,12 @@ cdef extern from "LDA_infer.h" namespace "plda_namespace":
         map[string, double] get_related_words(vector[double], int)
 
 cdef class PyLDA:
+    """
+    Wrap a trained plda model.
+
+    Supports inference on a document and fetching the most related
+    words to a topic distribution.
+    """
     cdef LDA_infer *thisptr
 
     def __cinit__(self, string model_file,
